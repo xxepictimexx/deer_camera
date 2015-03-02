@@ -8,7 +8,7 @@ import sys
 import json
 import commands
 
-config_file = '/home/pi/deer/cfg/deer.cfg'
+config_file = '/home/pi/deer_camera/cfg/deer.cfg'
 
 urls = (
     '/videolist', 'videolist',
@@ -16,11 +16,11 @@ urls = (
     '/restart', 'restarter',
 )
 url_prefix = '/video/'
-videodir = '/home/pi/deer/video/'
+videodir = '/home/pi/deer_camera/video/'
 t_globals = dict(
 )
 
-render = web.template.render('/home/pi/deer/www/templates/', cache=False,  globals=t_globals)
+render = web.template.render('/home/pi/deer_camera/www/templates/', cache=False,  globals=t_globals)
 
 def getVideoFiles(uri_prefix, video_dir):
     thumbs = glob.glob(videodir + "/2*/*.jpeg")

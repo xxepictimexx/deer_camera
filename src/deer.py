@@ -19,7 +19,7 @@ PARAMS = {
     u"time_sec": 15,
     u"resolution": "960x540",
     u"preview": 1,
-    u"savedir": u"/home/pi/deer/video",
+    u"savedir": u"/home/pi/deer_camera/video",
     u"gpio_port": 21,
     u"open_box_limit_sec": 40,
     u"mail_movie": 0,
