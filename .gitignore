@@ -4,6 +4,9 @@ __pycache__/
 
 # C extensions
 *.so
+*~
+
+cfg/deer.cfg
 
 # Distribution / packaging
 .Python
@@ -52,3 +55,4 @@ docs/_build/
 
 # PyBuilder
 target/
+video/

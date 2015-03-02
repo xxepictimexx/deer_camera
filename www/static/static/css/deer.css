@@ -1,0 +1,86 @@
+@import url(http://fonts.googleapis.com/css?family=Droid+Serif:400,700|Open+Sans:400,300);
+
+body {
+    font-family: 'Open Sans', sans-serif;
+    background: rgba(190, 255, 121, .2);
+    
+}
+
+h1, h2, h3, h4, h5 {
+    font-family: 'Open Sans', serif;
+}
+
+#results-list {
+    text-align: center;
+}
+
+.thumbnails {
+  margin-left: -20px;
+  list-style: none;
+  *zoom: 1;
+}
+
+.thumbnails:before,
+.thumbnails:after {
+  display: table;
+  line-height: 0;
+  content: "";
+}
+
+.thumbnails:after {
+  clear: both;
+}
+
+.row-fluid .thumbnails {
+  margin-left: 0;
+}
+
+.thumbnails > li {
+  float: left;
+  margin-bottom: 20px;
+  margin-left: 20px;
+}
+
+.thumbnail {
+  display: block;
+  padding: 4px;
+  line-height: 20px;
+  border: 1px solid #ddd;
+  -webkit-border-radius: 4px;
+     -moz-border-radius: 4px;
+          border-radius: 4px;
+  -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.055);
+     -moz-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.055);
+          box-shadow: 0 1px 3px rgba(0, 0, 0, 0.055);
+  -webkit-transition: all 0.2s ease-in-out;
+     -moz-transition: all 0.2s ease-in-out;
+       -o-transition: all 0.2s ease-in-out;
+          transition: all 0.2s ease-in-out;
+}
+
+.result {
+    height: 256px;
+    width: 256px;
+    overflow: hidden;
+    position: relative;
+}
+.result-thumb {
+    max-height: 100%;
+    max-width: 100%;
+}
+.result-caption {
+    text-align: left;
+    margin: 0;
+    position: absolute;
+    left: 0px;
+    bottom: 0px;
+    width: 100%;
+    background: rgba(255, 255, 255, .8);
+}
+.result-text {
+    width: 90%;
+    padding-left: 12px;
+    padding-right: 12px;
+    padding-top: 4px;
+    padding-bottom: 4px;
+}

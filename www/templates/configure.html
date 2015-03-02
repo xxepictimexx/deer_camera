@@ -1,0 +1,137 @@
+$def with (renderer, config, wlan_ip, error=None, restart=None)
+$:renderer.header(renderer, "Configuration")
+
+$if error: 
+    <div class="row">
+        <center><p class="bg-danger">$error</p></center>
+    <div>
+    
+
+$if restart:
+    <center><p class="bg-info">The device needs to be restarted</p>
+    <form name="input" action="/restart" method="post" class="form-horizontal">
+      <div class="row">      
+	<div class="input col-md-4 col-md-offset-4">
+	  <button type="submit col-md-6" class="btn btn-default btn-md">Restart</button>
+	</div>
+      </div>
+    </form>
+    </center>
+
+<div class="row">
+$if wlan_ip is None:
+    <center><p class="bg-danger">Cannot find the WIFI address - not connected</p></center>
+$else:
+    <center><p class="bg-info">WIFI address set to: $wlan_ip (ssid: $config['wlan_network']) - connect <a href="http://$wlan_ip/">here</a> when off the cable.
+<div>
+
+<form name="input" action="/config" method="post" class="form-horizontal">
+  <div class="form-group">
+    <label for="size_select" class="col-sm-4 control-label">Recording size:</label>
+    <div class="col-sm-2">
+      <select id="size_select" name="size_select" class="form-control">
+	<option value="480x270"
+		$if config['resolution'] == '480x270': selected
+		>480x270</option>
+	<option value="640x480"
+		$if config['resolution'] == '640x480': selected
+		>640x480</option>
+	<option value="960x540"
+		$if config['resolution'] == '960x540': selected
+		>960x540</option>
+	<option value="1920x1080"
+		$if config['resolution'] == '1920x1080': selected
+		>1920x1080</option>
+      </select>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="timesec" class="col-sm-4 control-label">Recording time (sec):</label>
+    <div class="col-sm-2">
+      <input type="text" class="col-sm-1 form-control" name="timesec" id="timesec" value="$config['time_sec']"  data-toggle="tooltip" data-placement="right" title="Record for this long, on each event."/>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="open_timesec" class="col-sm-4 control-label">Open box time limit (sec):</label>
+    <div class="col-sm-2">
+      <input type="text" class="col-sm-1 form-control" name="open_timesec" id="open_timesec" value="$config['open_box_limit_sec']"  data-toggle="tooltip" data-placement="right" title="Stop recording if door open for this long."/>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label for="wlan_network" class="col-sm-4 control-label">WLAN Network:</label>
+      <div class="col-sm-3">
+	<input type="text" class="form-control" id="wlan_network" name="wlan_network" value="$config['wlan_network']" data-toggle="tooltip" data-placement="right" title="Device Connects to This Network">
+      </div>
+    </div>
+  <div class="form-group">
+    <label for="wlan_pass" class="col-sm-4 control-label">WLAN Password:</label>
+    <div class="col-sm-3">
+        <input type="password" class="form-control" id="wlan_pass" name="wlan_pass" 
+	       $if config['wlan_network']: value="pass_set"
+	       data-toggle="tooltip" data-placement="right" title="WLAN password">
+    </div>
+  </div>
+
+  <div class="form-group">
+      <label for="send_mail" class="col-sm-4 control-label"> Send Mail On New Video</label>
+      <div class="col-sm-2">
+	<input id="send_mail" name="send_mail" class="col-md-6 form-control" value="0" 
+	       $if config['send_mail']: checked
+	       onclick="if(document.getElementById('send_mail').checked){document.getElementById('mail_params').style.display = 'block';}else{document.getElementById('mail_params').style.display = 'none';}"
+	       type="checkbox"/>
+      </div>
+  </div>
+  <div id='mail_params'>
+    <div class="form-group">
+      <label for="smtp_user" class="col-sm-4 control-label">Send Mail User:</label>
+      <div class="col-sm-3">
+	<input type="email" class="form-control" id="smtp_email" name="smtp_email" value="$(config['smtp_user']+'@'+config['smtp_domain'])" data-toggle="tooltip" data-placement="right" title="SMTP user. Sends the automated e-mails.">
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="smtp_domain" class="col-sm-4 control-label">Send Mail Server:</label>
+      <div class="col-sm-3">
+	<input type="text" class="form-control" id="smtp_server" name="smtp_server" value="$config['smtp_server']" data-toggle="tooltip" data-placement="right" title="SMTP mail server.">
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="smtp_pass" class="col-sm-4 control-label">Send Mail Password:</label>
+      <div class="col-sm-3">
+	<input type="password" class="form-control" id="smtp_pass" name="smtp_pass" 
+	       $if config['smtp_pass']: value="pass_set"
+	       data-toggle="tooltip" data-placement="right" title="SMTP user password">
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="alert_email" class="col-sm-4 control-label">Email To Alert:</label>
+      <div class="col-sm-3">
+	<input type="email" class="form-control" id="alert_email" name="alert_email" value="$config['alert_email']" 
+	       data-toggle="tooltip" data-placement="right" title="Send mail to this address upon recording anything.">
+      </div>
+    </div>	      
+    <div class="form-group">
+      <label for="mail_movie" class="col-sm-4 control-label">Mail Attach Option:</label>
+      <div class="col-sm-3">
+	<select id="mail_movie" name="mail_movie" class="form-control">
+	<option value="jpg"
+		$if not config['mail_movie']: selected
+		>Attach One Frame (jpg-image)</option>
+	<option value="mpg"
+		$if config['mail_movie']: selected
+		>Attach Full Movie (mp4-large)</option>
+      </select>
+      </div>	      
+    </div>
+  </div>
+  <div class="row">      
+    <div class="input col-md-4 col-md-offset-4">
+      <button type="submit col-md-6" class="btn btn-default btn-md">Save</button>
+    </div>
+  </div>
+</form>
+
+
+</div>
+</body></html>
+
